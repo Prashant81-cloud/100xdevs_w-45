@@ -30,7 +30,8 @@ jobs:
 
             cd ~/100xdevs_w-45
 
-            git pull origin production
+            git fetch origin production
+            git reset --hard origin/production
 
             pnpm install
 
