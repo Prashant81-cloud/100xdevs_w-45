@@ -18,6 +18,7 @@ jobs:
 
           ssh -o StrictHostKeyChecking=no -i ~/ssh_key azureuser@57.158.25.94 << 'EOF'
 
+            source ~/.nvm/nvm.sh
             cd ~/100xdevs_w-45
 
             git pull origin main
