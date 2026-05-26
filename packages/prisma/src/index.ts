@@ -13,3 +13,4 @@ const adapter = new PrismaPg(pool)
 export const prismaClient = new PrismaClient({adapter});
 
 const x = 5;
+const p = 7;
