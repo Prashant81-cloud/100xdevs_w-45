@@ -16,9 +16,18 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
           chmod 600 ~/ssh_key
 
-          ssh -o StrictHostKeyChecking=no -i ~/ssh_key azureuser@20.2.89.174 << 'EOF'
+          # Force bash to run as a login shell so it loads your paths properly
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key azureuser@20.2.89.174 "/bin/bash -l" << 'EOF'
+            # CRITICAL: Exit immediately if any command fails. This prevents false green flags.
+            set -e
 
-            source ~/.nvm/nvm.sh
+            # Explicitly load NVM environment variables
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            
+            # Add pnpm global binaries to the current path if needed
+            export PATH="$HOME/.local/share/pnpm:$PATH"
+
             cd ~/100xdevs_w-45
 
             git pull origin production
@@ -32,8 +41,11 @@ jobs:
 
             pnpm run build
 
+            # Restarting PM2 daemons safely
             pm2 restart fe-server
             pm2 restart http-server
             pm2 restart ws-server
 
+            # Save the PM2 state to prevent it from closing when this action detaches
+            pm2 save
           EOF
