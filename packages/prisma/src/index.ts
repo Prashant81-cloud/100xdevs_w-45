@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 // Use the path you just confirmed via `cat`
-dotenv.config({ path: "/Users/prashantsharma/Desktop/100xdevs_w-45/packages/prisma/.env" });
+dotenv.config();
 import { PrismaClient } from "../generated/prisma/client.js";
 import { PrismaPg } from '@prisma/adapter-pg';
 import pg from "pg";
