@@ -1,10 +1,14 @@
+import dotenv from 'dotenv';
+// Use the path you just confirmed via `cat`
+dotenv.config({ path: "/Users/prashantsharma/Desktop/100xdevs_w-45/packages/prisma/.env" });
 import { PrismaClient } from "../generated/prisma/client.js";
 import { PrismaPg } from '@prisma/adapter-pg';
-import dotenv from 'dotenv';
 import pg from "pg";
-dotenv.config();
+
+console.log(process.env.DATABASE_URL);
 
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL })
 const adapter = new PrismaPg(pool)
 
 export const prismaClient = new PrismaClient({adapter});
+//hello
