@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import path from "path";
 // Use the path you just confirmed via `cat`
 dotenv.config();
 import { PrismaClient } from "../generated/prisma/client.js";
