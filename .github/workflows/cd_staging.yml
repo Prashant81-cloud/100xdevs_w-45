@@ -31,7 +31,8 @@ jobs:
             cd ~/100xdevs_w-45
 
             # Force server to match remote production state
-            git pull origin main
+            git fetch origin main
+            git reset --hard origin/main
 
             pnpm install
 
