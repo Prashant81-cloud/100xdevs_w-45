@@ -16,7 +16,7 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
           chmod 600 ~/ssh_key
 
-          ssh -o StrictHostKeyChecking=no -i ~/ssh_key azureuser@20.2.89.174 << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key azureuser@57.158.25.94 << 'EOF'
 
             cd ~/100xdevs_w-45
 
@@ -25,7 +25,7 @@ jobs:
             pnpm install
 
             cd packages/prisma
-            npx prisma generate
+            npx prisma generate --config prisma.config.ts
 
             cd ~/100xdevs_w-45
 
