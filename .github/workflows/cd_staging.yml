@@ -1,0 +1,38 @@
+name: Deploy To Staging
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  redeploy_everything:
+    name: Deploying everything to the staging server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH Into Server And Deploy
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
+          chmod 600 ~/ssh_key
+
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key azureuser@20.2.89.174 << 'EOF'
+
+            cd ~/100xdevs_w-45
+
+            git pull origin main
+
+            pnpm install
+
+            cd packages/prisma
+            npx prisma generate
+
+            cd ~/100xdevs_w-45
+
+            pnpm run build
+
+            pm2 restart fe-server
+            pm2 restart http-server
+            pm2 restart ws-server
+
+          EOF
