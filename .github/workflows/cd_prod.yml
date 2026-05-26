@@ -18,7 +18,7 @@ jobs:
 
           # Force bash to run as a login shell so it loads your paths properly
           ssh -o StrictHostKeyChecking=no -i ~/ssh_key azureuser@20.2.89.174 "/bin/bash -l" << 'EOF'
-            # CRITICAL: Exit immediately if any command fails. This prevents false green flags.
+            # CRITICAL: Exit immediately if any command fails.
             set -e
 
             # Explicitly load NVM environment variables
@@ -30,6 +30,7 @@ jobs:
 
             cd ~/100xdevs_w-45
 
+            # Force server to match remote production state
             git fetch origin production
             git reset --hard origin/production
 
@@ -47,6 +48,6 @@ jobs:
             pm2 restart http-server
             pm2 restart ws-server
 
-            # Save the PM2 state to prevent it from closing when this action detaches
+            # Save the PM2 state
             pm2 save
           EOF
